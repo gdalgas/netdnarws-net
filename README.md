@@ -1,4 +1,4 @@
-# Net DNA REST Web Services NET Client
+# NetDNA REST Web Services NET Client
 
 This is a Visual Studio 2012 project using .NET 4.5 
 
