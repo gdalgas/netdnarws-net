@@ -2,7 +2,7 @@
 
 This is a Visual Studio 2012 project using .NET 4.5 
 
-Make sure an obtain a proper account alias, consumer key, and consumer secret prior to using this library
+Make sure and obtain a proper account alias, consumer key, and consumer secret prior to using this library
 
 ## Usage
 
