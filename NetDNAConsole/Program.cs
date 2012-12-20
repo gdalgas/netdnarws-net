@@ -1,10 +1,20 @@
-﻿namespace NetDNAConsole
+﻿using System.Linq;
+
+namespace NetDNAConsole
 {
     class Program
     {
         static void Main(string[] args)
         {
-            var api = new NetDNARWS.Api("account alias", "consumer key","consumer secret");
+            var timeoutParam = args.SingleOrDefault(arg => arg.StartsWith("-t:"));
+            var requestTimeout = 30;
+
+            if (!string.IsNullOrEmpty(timeoutParam))
+            {
+                requestTimeout = int.Parse(timeoutParam.Replace("-t:", ""));
+            }
+
+            var api = new NetDNARWS.Api("account alias", "consumer key","consumer secret", requestTimeout);
 
             //var accountResult = api.Get("/account.json", true);            
 

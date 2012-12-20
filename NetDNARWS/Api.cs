@@ -14,21 +14,23 @@ namespace NetDNARWS
         private string _consumerKey = "";
         private string _consumerSecret = "";
         private string _alias = "";
+        private int _requestTimeout = 30;
 
         private const string _netDNABaseAddress = "https://rws.netdna.com";
 
-        public Api(string alias, string consumerKey, string consumerSecret)
+        public Api(string alias, string consumerKey, string consumerSecret, int requestTimeout = 30)
         {
             _consumerKey = consumerKey;
             _alias = alias;
             _consumerSecret = consumerSecret;
+            _requestTimeout = requestTimeout;
         }
 
         public dynamic Get(string url, bool debug = false)
         {            
             var requestUrl = GenerateOAuthRequestUrl(url, "GET");
 
-            var request = new WebClient();
+            var request = new ApiWebClient(_requestTimeout);            
             var response = request.DownloadString(requestUrl);
 
             var result = JObject.Parse(response);
@@ -108,6 +110,21 @@ namespace NetDNARWS
             Console.WriteLine();
         }
 
+        private class ApiWebClient : WebClient
+        {
+            private int _requestTimeout = 30;
 
+            public ApiWebClient(int requestTimeout = 30)
+            {
+                _requestTimeout = requestTimeout;
+            }
+
+            protected override WebRequest GetWebRequest(Uri address)
+            {
+                WebRequest w = base.GetWebRequest(address);
+                w.Timeout = _requestTimeout * 1000;
+                return w;
+            }
+        }
     }
 }
